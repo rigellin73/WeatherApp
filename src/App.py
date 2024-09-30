@@ -18,7 +18,7 @@ def get_location_city():
     return response.get("city")
 
 # Read config file
-config = yaml.safe_load(open("../config.yml"))
+config = yaml.safe_load(open("../config/config.yml"))
 
 # Configure API key authorization: ApiKeyAuth
 configuration = weatherapi.Configuration()
@@ -31,14 +31,14 @@ api_instance = weatherapi.APIsApi(weatherapi.ApiClient(configuration))
 
 # get location
 
-q = get_location_city() # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name. Visit [request parameter section](https://www.weatherapi.com/docs/#intro-request) to learn more.
+ip_location_city = get_location_city() # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name. Visit [request parameter section](https://www.weatherapi.com/docs/#intro-request) to learn more.
 
 # get current date
 dt = date.today().strftime("%y-%m-%d") # date | Date on or after 1st Jan, 2015 in yyyy-MM-dd format
 
 try:
     # Astronomy API
-    api_response = api_instance.astronomy(q, dt)
+    api_response = api_instance.astronomy(ip_location_city, dt)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling APIsApi->astronomy: %s\n" % e)

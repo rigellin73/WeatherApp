@@ -7,6 +7,6 @@ $ pip install pyyaml requests
 
 2. Create config file
 
-config.yml
+config/config.yml
 
 key: 'WeatherAPI Key'
