@@ -3,6 +3,7 @@ import weatherapi
 from weatherapi.rest import ApiException
 from pprint import pprint
 import yaml
+from datetime import date
 
 # Read config file
 
@@ -17,7 +18,9 @@ configuration.api_key['key'] = config['key']
 # create an instance of the API class
 api_instance = weatherapi.APIsApi(weatherapi.ApiClient(configuration))
 q = 'Malmo' # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name. Visit [request parameter section](https://www.weatherapi.com/docs/#intro-request) to learn more.
-dt = '2024-09-27' # date | Date on or after 1st Jan, 2015 in yyyy-MM-dd format
+
+# get current date
+dt = date.today().strftime("%y-%m-%d") # date | Date on or after 1st Jan, 2015 in yyyy-MM-dd format
 
 try:
     # Astronomy API
