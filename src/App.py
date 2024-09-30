@@ -5,8 +5,19 @@ from pprint import pprint
 import yaml
 from datetime import date
 
-# Read config file
+import requests
 
+def get_ip():
+    response = requests.get('https://api64.ipify.org?format=json').json()
+    return response["ip"]
+
+
+def get_location_city():
+    ip_address = get_ip()
+    response = requests.get(f'https://ipapi.co/{ip_address}/json/').json()
+    return response.get("city")
+
+# Read config file
 config = yaml.safe_load(open("../config.yml"))
 
 # Configure API key authorization: ApiKeyAuth
@@ -17,7 +28,10 @@ configuration.api_key['key'] = config['key']
 
 # create an instance of the API class
 api_instance = weatherapi.APIsApi(weatherapi.ApiClient(configuration))
-q = 'Malmo' # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name. Visit [request parameter section](https://www.weatherapi.com/docs/#intro-request) to learn more.
+
+# get location
+
+q = get_location_city() # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name. Visit [request parameter section](https://www.weatherapi.com/docs/#intro-request) to learn more.
 
 # get current date
 dt = date.today().strftime("%y-%m-%d") # date | Date on or after 1st Jan, 2015 in yyyy-MM-dd format
