@@ -4,6 +4,7 @@ from weatherapi.rest import ApiException
 from pprint import pprint
 import yaml
 from datetime import date
+import tkinter as tk
 
 import requests
 
@@ -40,5 +41,9 @@ try:
     # Astronomy API
     api_response = api_instance.astronomy(ip_location_city, dt)
     pprint(api_response)
+    window = tk.Tk()
+    label = tk.Label(text=api_response)
+    label.pack()
+    window.mainloop()
 except ApiException as e:
     print("Exception when calling APIsApi->astronomy: %s\n" % e)
