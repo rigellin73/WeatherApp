@@ -3,7 +3,7 @@ import weatherapi
 from weatherapi.rest import ApiException
 from pprint import pprint
 import yaml
-from datetime import date
+#from datetime import date
 import tkinter as tk
 
 import requests
@@ -35,15 +35,20 @@ api_instance = weatherapi.APIsApi(weatherapi.ApiClient(configuration))
 ip_location_city = get_location_city() # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name. Visit [request parameter section](https://www.weatherapi.com/docs/#intro-request) to learn more.
 
 # get current date
-dt = date.today().strftime("%y-%m-%d") # date | Date on or after 1st Jan, 2015 in yyyy-MM-dd format
+#dt = date.today().strftime("%y-%m-%d") # date | Date on or after 1st Jan, 2015 in yyyy-MM-dd format
 
-try:
-    # Astronomy API
-    api_response = api_instance.astronomy(ip_location_city, dt)
+def show_weather(api_response):
     pprint(api_response)
     window = tk.Tk()
     label = tk.Label(text=api_response)
     label.pack()
     window.mainloop()
+
+try:
+    # Astronomy API
+    #api_astronomy_response = api_instance.astronomy(ip_location_city, dt)
+    api_realtime_response = api_instance.realtime_weather(ip_location_city)
+    show_weather(api_realtime_response["current"])
+
 except ApiException as e:
-    print("Exception when calling APIsApi->astronomy: %s\n" % e)
+    print("Exception when calling APIsApi->realtime_weather: %s\n" % e)
