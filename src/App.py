@@ -68,12 +68,17 @@ def create_window_content(window, api_response):
 
 
 def get_weather_info_from_response(api_response):
-    response_fields_tuple = ('temp_c', 'feelslike_c', 'humidity', 'wind_dir', 'wind_kph')
-    condition_text = api_response['condition']['text']
+    response_fields_dict = {
+        'temp_c': 'Temperature',
+        'feelslike_c': 'Feels like',
+        'humidity': 'Humidity',
+        'wind_dir': 'Wind direction',
+        'wind_kph': 'Wind speed'
+    }
     weather_info = dict()
-    weather_info['condition'] = condition_text
-    for item in response_fields_tuple:
-        weather_info[item] = api_response[item]
+    weather_info['Condition'] = api_response['condition']['text']
+    for key, value in response_fields_dict.items():
+        weather_info[value] = api_response[key]
     return weather_info
 
 
