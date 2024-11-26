@@ -9,7 +9,7 @@ from tkinter import ttk
 import requests
 
 
-test_request = {'cloud': 75,
+test_response = {'cloud': 75,
  'condition': {'code': 1003,
                'icon': '//cdn.weatherapi.com/weather/64x64/night/116.png',
                'text': 'Partly cloudy'},
@@ -137,7 +137,7 @@ try:
     #api_realtime_response = api_instance.realtime_weather(ip_location_city)
     #pprint(api_realtime_response['current'])
     #weather_info_dict = get_weather_info_from_response(api_realtime_response["current"])
-    weather_info_dict = get_weather_info_from_response(test_request)
+    weather_info_dict = get_weather_info_from_response(test_response)
 
     # create a root window.
     main_window = tk.Tk()
