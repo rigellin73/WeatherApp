@@ -8,6 +8,40 @@ from tkinter import ttk
 
 import requests
 
+
+test_request = {'cloud': 75,
+ 'condition': {'code': 1003,
+               'icon': '//cdn.weatherapi.com/weather/64x64/night/116.png',
+               'text': 'Partly cloudy'},
+ 'dewpoint_c': 5.6,
+ 'dewpoint_f': 42.1,
+ 'feelslike_c': 3.9,
+ 'feelslike_f': 39.0,
+ 'gust_kph': 49.9,
+ 'gust_mph': 31.0,
+ 'heatindex_c': 7.7,
+ 'heatindex_f': 45.9,
+ 'humidity': 81,
+ 'is_day': 0,
+ 'last_updated': '2024-11-26 17:15',
+ 'last_updated_epoch': 1732637700,
+ 'precip_in': 0.0,
+ 'precip_mm': 0.01,
+ 'pressure_in': 29.91,
+ 'pressure_mb': 1013.0,
+ 'temp_c': 8.1,
+ 'temp_f': 46.6,
+ 'uv': 0.0,
+ 'vis_km': 10.0,
+ 'vis_miles': 6.0,
+ 'wind_degree': 232,
+ 'wind_dir': 'SW',
+ 'wind_kph': 32.8,
+ 'wind_mph': 20.4,
+ 'windchill_c': 3.4,
+ 'windchill_f': 38.1}
+
+
 def get_ip():
     response = requests.get('https://api64.ipify.org?format=json').json()
     return response["ip"]
@@ -100,9 +134,10 @@ api_instance = weatherapi.APIsApi(weatherapi.ApiClient(configuration))
 ip_location_city = "Malmo"
 
 try:
-    api_realtime_response = api_instance.realtime_weather(ip_location_city)
-    pprint(api_realtime_response['current'])
-    weather_info_dict = get_weather_info_from_response(api_realtime_response["current"])
+    #api_realtime_response = api_instance.realtime_weather(ip_location_city)
+    #pprint(api_realtime_response['current'])
+    #weather_info_dict = get_weather_info_from_response(api_realtime_response["current"])
+    weather_info_dict = get_weather_info_from_response(test_request)
 
     # create a root window.
     main_window = tk.Tk()
