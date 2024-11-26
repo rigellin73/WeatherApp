@@ -31,7 +31,6 @@ def create_weather_entries(content_frame, weather_info_dict):
 
 
 def create_window_content(window, api_response):
-    pprint(api_response)
 
     # Step 3: Create a Frame for Grid Layout
     frame = ttk.Frame(window)
@@ -68,6 +67,16 @@ def create_window_content(window, api_response):
     canvas.bind_all("<MouseWheel>", _on_mousewheel)
 
 
+def get_weather_info_from_response(api_response):
+    response_fields_tuple = ('temp_c', 'feelslike_c', 'humidity', 'wind_dir', 'wind_kph')
+    condition_text = api_response['condition']['text']
+    weather_info = dict()
+    weather_info['condition'] = condition_text
+    for item in response_fields_tuple:
+        weather_info[item] = api_response[item]
+    return weather_info
+
+
 # Read config file
 config = yaml.safe_load(open("../config/config.yml"))
 
@@ -87,13 +96,15 @@ ip_location_city = "Malmo"
 
 try:
     api_realtime_response = api_instance.realtime_weather(ip_location_city)
+    pprint(api_realtime_response['current'])
+    weather_info_dict = get_weather_info_from_response(api_realtime_response["current"])
 
     # create a root window.
     main_window = tk.Tk()
     main_window.title("Current weather")
     # Define the size of the window.
     main_window.geometry("500x750")
-    create_window_content(main_window, api_realtime_response["current"])
+    create_window_content(main_window, weather_info_dict)
     main_window.mainloop()
 
 except ApiException as e:
