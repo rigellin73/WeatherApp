@@ -4,6 +4,7 @@ from weatherapi.rest import ApiException
 from pprint import pprint
 import yaml
 import tkinter as tk
+import logging
 from ui.weather_app_ui import create_window_content
 from api.weather_app_api import get_location_city
 
@@ -56,8 +57,16 @@ def get_weather_info_from_response(api_response):
     return weather_info
 
 
-# Read config file
-config = yaml.safe_load(open("../config/config.yml"))
+# Setup logging
+logging_level = logging.DEBUG
+logging_fmt = '[%(levelname)s] %(asctime)s - %(message)s'
+logging.basicConfig(level = logging_level, format = logging_fmt)
+
+# TODO: read key from env, do not store it in config file
+# Read WeatherAPI key from config file
+weather_api_key_path = "../config/weather_api_key.yml"
+logging.info(f"Reading config file {weather_api_key_path}")
+config = yaml.safe_load(open(weather_api_key_path))
 
 # Configure API key authorization: ApiKeyAuth
 configuration = weatherapi.Configuration()
