@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def create_weather_entries(content_frame, weather_info_dict):

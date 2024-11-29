@@ -1,12 +1,10 @@
 from __future__ import print_function
-import weatherapi
 from weatherapi.rest import ApiException
 from pprint import pprint
-import yaml
 import tkinter as tk
 import logging
 from ui.weather_app_ui import create_window_content
-from api.weather_app_api import get_location_city
+from api.weather_app_api import get_weather_api_instance, get_location_city, get_realtime_weather
 
 
 test_response = {'cloud': 75,
@@ -58,35 +56,31 @@ def get_weather_info_from_response(api_response):
 
 
 # Setup logging
-logging_level = logging.DEBUG
-logging_fmt = '[%(levelname)s] %(asctime)s - %(message)s'
-logging.basicConfig(level = logging_level, format = logging_fmt)
+# instantiate logger
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
 
-# TODO: read key from env, do not store it in config file
-# Read WeatherAPI key from config file
-weather_api_key_path = "../config/weather_api_key.yml"
-logging.info(f"Reading config file {weather_api_key_path}")
-config = yaml.safe_load(open(weather_api_key_path))
+# define handler and formatter
+handler = logging.StreamHandler()
+formatter = logging.Formatter("[%(levelname)s] %(asctime)s - %(message)s")
 
-# Configure API key authorization: ApiKeyAuth
-configuration = weatherapi.Configuration()
-configuration.api_key['key'] = config['key']
-# Uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-# configuration.api_key_prefix['key'] = 'Bearer'
+# add formatter to handler
+handler.setFormatter(formatter)
 
-# create an instance of the API class
-api_instance = weatherapi.APIsApi(weatherapi.ApiClient(configuration))
+# add handler to logger
+logger.addHandler(handler)
 
-# get location
-
-#ip_location_city = get_location_city() # str | Pass US Zipcode, UK Postcode, Canada Postalcode, IP address, Latitude/Longitude (decimal degree) or city name.
-ip_location_city = "Malmo"
 
 try:
-    #api_realtime_response = api_instance.realtime_weather(ip_location_city)
-    #pprint(api_realtime_response['current'])
-    #weather_info_dict = get_weather_info_from_response(api_realtime_response["current"])
-    weather_info_dict = get_weather_info_from_response(test_response)
+    weather_api_instance = get_weather_api_instance()
+
+    # ipapi doesn't work for me now, so use hardcode location for test purposes
+    #location_city = get_location_city()
+    location_city = "Malmo"
+    weather_api_realtime_response = get_realtime_weather(weather_api_instance, location_city)
+    #pprint(weather_api_realtime_response['current'])
+    weather_info_dict = get_weather_info_from_response(weather_api_realtime_response["current"])
+    #weather_info_dict = get_weather_info_from_response(test_response)
 
     # create a root window.
     main_window = tk.Tk()
